@@ -1,0 +1,20 @@
+{% extends 'articles/base.html' %}
+
+{% block title %}Список статей{% endblock %}
+
+{% block content %}
+    <h1>{% if author %}Статті автора: {{ author.username }}{% else %}Всі статті{% endif %}</h1>
+
+    {% for article in articles %}
+        <div class="article">
+            <h2><a href="{% url 'article_detail' article.pk %}">{{ article.title }}</a></h2>
+            <p class="meta">
+                Опубліковано: {{ article.published_date|date:"d.m.Y H:i" }} |
+                Автор: <a href="{% url 'articles_by_author' article.author.id %}">{{ article.author.username }}</a>
+            </p>
+            <p>{{ article.text|truncatewords:30 }}</p>
+        </div>
+    {% empty %}
+        <p>Статей ще немає.</p>
+    {% endfor %}
+{% endblock %}

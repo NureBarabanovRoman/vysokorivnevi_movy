@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Дані про мене</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f0f2f5; }
+        .card { 
+            background: white;
+            border: 1px solid #ddd; 
+            padding: 20px; 
+            border-radius: 12px; 
+            max-width: 400px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h2 { color: #1a73e8; margin-top: 0; }
+        .error { color: #d93025; background: #fce8e6; padding: 10px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <p>Завантаження даних...</p>
+    </div>
+
+    <script>
+        const root = document.getElementById('root');
+
+        fetch('me.json')
+            .then(response => {
+                if (!response.ok) throw new Error('Файл me.json не знайдено');
+                return response.text();
+            })
+            .then(jsonString => {
+                const data = JSON.parse(jsonString);
+
+                root.innerHTML = '';
+                
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                const nameHeader = document.createElement('h2');
+                nameHeader.textContent = data.name;
+
+                const agePara = document.createElement('p');
+                agePara.innerHTML = `<strong>Вік:</strong> ${data.age}`;
+
+                const hobbyHeader = document.createElement('h4');
+                hobbyHeader.textContent = 'Мої хобі:';
+
+                const hobbyList = document.createElement('ul');
+                data.hobbies.forEach(hobby => {
+                    const li = document.createElement('li');
+                    li.textContent = hobby;
+                    hobbyList.appendChild(li);
+                });
+
+                card.appendChild(nameHeader);
+                card.appendChild(agePara);
+                card.appendChild(hobbyHeader);
+                card.appendChild(hobbyList);
+
+                root.appendChild(card);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+</body>
+</html>

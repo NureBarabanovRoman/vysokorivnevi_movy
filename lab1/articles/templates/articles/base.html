@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Мій Блог{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .article { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
+        .article h2 { margin-bottom: 5px; }
+        .meta { color: #666; font-size: 0.9em; }
+        nav { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'article_list' %}">Головна</a> |
+        <a href="/api/articles-api/">API</a> |
+    </nav>
+    <hr>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
